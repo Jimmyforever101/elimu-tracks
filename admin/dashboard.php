@@ -25,10 +25,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_attendance']))
     }
 }
 
+// Handle delete kitchen record
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_kitchen'])) {
+    $kitchen_id = (int)($_POST['kitchen_id'] ?? 0);
+    
+    if ($kitchen_id > 0) {
+        $stmt = $conn->prepare("DELETE FROM kitchen_plates WHERE id = ?");
+        $stmt->bind_param("i", $kitchen_id);
+        
+        if ($stmt->execute()) {
+            $delete_message = 'Kitchen record deleted successfully!';
+        } else {
+            $delete_error = 'Error deleting kitchen record: ' . $conn->error;
+        }
+        $stmt->close();
+    }
+}
+
 // Get statistics
 $total_departments = $conn->query("SELECT COUNT(*) as count FROM departments")->fetch_assoc()['count'];
-$total_users = $conn->query("SELECT COUNT(*) as count FROM users")->fetch_assoc()['count'];
-$total_attendance = $conn->query("SELECT COUNT(*) as count FROM lesson_attendance")->fetch_assoc()['count'];
+$total_users = $conn->query("SELECT COUNT(*) as count FROM users WHERE role != 'admin'")->fetch_assoc()['count'];
+$total_attendance = $conn->query("SELECT COUNT(*) as count FROM lesson_attendance WHERE DATE(created_at) = CURDATE()")->fetch_assoc()['count'];
 $total_kitchen = $conn->query("SELECT COUNT(*) as count FROM kitchen_plates")->fetch_assoc()['count'];
 
 // Get recent attendance
@@ -38,6 +55,15 @@ $recent_attendance = $conn->query("
     JOIN users u ON la.user_id = u.id
     JOIN departments d ON u.department_id = d.id
     ORDER BY la.created_at DESC
+    LIMIT 5
+");
+
+// Get recent kitchen records with kitchen user info
+$recent_kitchen = $conn->query("
+    SELECT kp.*, u.username
+    FROM kitchen_plates kp
+    LEFT JOIN users u ON kp.user_id = u.id
+    ORDER BY kp.record_date DESC, kp.created_at DESC
     LIMIT 5
 ");
 
@@ -94,7 +120,7 @@ while ($row = $kitchen_week->fetch_assoc()) {
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <h5><i class="fas fa-clipboard"></i> Total Attendance Records</h5>
+                <h5><i class="fas fa-clipboard"></i> Today's Attendance Records</h5>
                 <div class="stat-value"><?php echo $total_attendance; ?></div>
             </div>
         </div>
@@ -132,7 +158,7 @@ while ($row = $kitchen_week->fetch_assoc()) {
             </div>
         </div>
         
-        <!-- Kitchen Week Chart -->
+        <!-- Kitchen Week Chart
         <div class="col-lg-6 col-md-12">
             <div class="chart-wrapper">
                 <h5 class="card-title"><i class="fas fa-chart-bar"></i> Kitchen Plates - This Week</h5>
@@ -142,7 +168,7 @@ while ($row = $kitchen_week->fetch_assoc()) {
             </div>
         </div>
     </div>
-    
+    -->
     <!-- Recent Attendance -->
     <div class="card mt-4">
         <div class="card-header">
@@ -193,6 +219,55 @@ while ($row = $kitchen_week->fetch_assoc()) {
                 <div class="empty-state">
                     <i class="fas fa-inbox"></i>
                     <p>No attendance records yet</p>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <!-- Recent Kitchen Records -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <i class="fas fa-utensils"></i> Recent Kitchen Records
+        </div>
+        <div class="card-body">
+            <?php if ($recent_kitchen->num_rows > 0): ?>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Username</th>
+                                <th>Plates Saved</th>
+                                <th>Tea Cups Served</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php while ($row = $recent_kitchen->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?php echo date('M d, Y', strtotime($row['record_date'])); ?></td>
+                                    <td><?php echo htmlspecialchars($row['username'] ?? 'Unknown'); ?></td>
+                                    <td><?php echo $row['plates_count']; ?></td>
+                                    <td><?php echo $row['tea_cups_count']; ?></td>
+                                    <td><?php echo date('M d, Y H:i', strtotime($row['created_at'])); ?></td>
+                                    <td>
+                                        <form method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this kitchen record?');">
+                                            <input type="hidden" name="kitchen_id" value="<?php echo $row['id']; ?>">
+                                            <button type="submit" name="delete_kitchen" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No kitchen records yet</p>
                 </div>
             <?php endif; ?>
         </div>

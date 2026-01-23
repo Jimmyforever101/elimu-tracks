@@ -8,6 +8,36 @@ checkRole(['admin']);
 $success = '';
 $error = '';
 
+// Edit department
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_department'])) {
+    $dept_id = (int)$_POST['dept_id'];
+    $name = trim($_POST['name'] ?? '');
+    
+    if (empty($name)) {
+        $error = 'Department name is required';
+    } else {
+        // Check if name already exists for another department
+        $check = $conn->prepare("SELECT id FROM departments WHERE name = ? AND id != ?");
+        $check->bind_param("si", $name, $dept_id);
+        $check->execute();
+        
+        if ($check->get_result()->num_rows > 0) {
+            $error = 'Department name already exists';
+        } else {
+            $stmt = $conn->prepare("UPDATE departments SET name = ? WHERE id = ?");
+            $stmt->bind_param("si", $name, $dept_id);
+            
+            if ($stmt->execute()) {
+                $success = 'Department updated successfully';
+            } else {
+                $error = 'Error updating department: ' . $conn->error;
+            }
+            $stmt->close();
+        }
+        $check->close();
+    }
+}
+
 // Add department
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_department'])) {
     $name = trim($_POST['name'] ?? '');
@@ -77,7 +107,7 @@ $departments = $conn->query("SELECT * FROM departments ORDER BY name ASC");
                         <div class="form-group">
                             <label for="name">Department Name</label>
                             <input type="text" class="form-control" id="department_name" name="name" 
-                                   placeholder="e.g., English, Mathematics" required>
+                                placeholder="e.g., English, Mathematics" required>
                         </div>
                         <button type="submit" name="add_department" class="btn btn-primary w-100">
                             <i class="fas fa-save"></i> Add Department
@@ -106,12 +136,18 @@ $departments = $conn->query("SELECT * FROM departments ORDER BY name ASC");
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while ($row = $departments->fetch_assoc()): ?>
+                                    <?php 
+                                    $index = 1;
+                                    while ($row = $departments->fetch_assoc()): ?>
                                         <tr>
-                                            <td><?php echo $row['id']; ?></td>
+                                            <td><?php echo $index++; ?></td>
                                             <td><?php echo htmlspecialchars($row['name']); ?></td>
                                             <td><?php echo date('M d, Y', strtotime($row['created_at'])); ?></td>
                                             <td>
+                                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editDeptModal<?php echo $row['id']; ?>">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </button>
+                                                
                                                 <a href="?delete=<?php echo $row['id']; ?>" 
                                                    class="btn btn-danger btn-sm" 
                                                    onclick="return confirm('Are you sure?')">
@@ -132,6 +168,45 @@ $departments = $conn->query("SELECT * FROM departments ORDER BY name ASC");
                 </div>
             </div>
         </div>
+    </div>
+    
+    <!-- Edit Department Modals -->
+    <?php 
+    // Fetch departments again for modals
+    $depts_for_modals = $conn->query("SELECT * FROM departments ORDER BY name ASC");
+    while ($dept = $depts_for_modals->fetch_assoc()): 
+    ?>
+        <div class="modal fade" id="editDeptModal<?php echo $dept['id']; ?>" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Department: <?php echo htmlspecialchars($dept['name']); ?></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form method="POST">
+                        <div class="modal-body">
+                            <input type="hidden" name="dept_id" value="<?php echo $dept['id']; ?>">
+                            
+                            <div class="form-group">
+                                <label for="edit_name<?php echo $dept['id']; ?>">Department Name</label>
+                                <input type="text" class="form-control" id="edit_name<?php echo $dept['id']; ?>" name="name" 
+                                       value="<?php echo htmlspecialchars($dept['name']); ?>" placeholder="e.g., English, Mathematics" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="edit_department" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php endwhile; ?>
+    
+    <div class="mt-4 mb-4">
+        <button onclick="history.back()" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
     </div>
 </div>
 

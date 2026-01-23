@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = 'Username and password are required';
     } else {
         // Query user
-        $stmt = $conn->prepare("SELECT id, username, password, role, department_id FROM users WHERE username = ?");
+        $stmt = $conn->prepare("SELECT id, username, password, role, department_id, is_super_admin FROM users WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['department_id'] = $user['department_id'];
+                $_SESSION['is_super_admin'] = $user['is_super_admin'];
                 
                 // Redirect based on role
                 if ($user['role'] == 'admin') {
@@ -83,8 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="login-box">
             <div class="text-center mb-4">
                 <i class="fas fa-graduation-cap" style="font-size: 48px; color: #667eea;"></i>
-                <h2 class="mt-3">Elimu Tracks</h2>
-                <p class="text-muted">School Records Management System</p>
+                <h2 class="mt-3">ElimuTracks</h2>
+                <p class="text-muted">Elimu Yetu Records Management System</p>
             </div>
             
             <?php if (!empty($error)): ?>

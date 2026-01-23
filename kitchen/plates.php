@@ -13,12 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $plates_count = (int)($_POST['plates_count'] ?? 0);
     $tea_cups_count = (int)($_POST['tea_cups_count'] ?? 0);
     $record_date = trim($_POST['record_date'] ?? '');
+    $user_id = $_SESSION['user_id'];
     
     if (empty($record_date) || ($plates_count < 0 && $tea_cups_count < 0)) {
         $error = 'Date is required and at least one count (plates or tea cups) must be greater than 0';
     } else {
-        $stmt = $conn->prepare("INSERT INTO kitchen_plates (record_date, plates_count, tea_cups_count) VALUES (?, ?, ?)");
-        $stmt->bind_param("sii", $record_date, $plates_count, $tea_cups_count);
+        $stmt = $conn->prepare("INSERT INTO kitchen_plates (user_id, record_date, plates_count, tea_cups_count) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("isii", $user_id, $record_date, $plates_count, $tea_cups_count);
         
         if ($stmt->execute()) {
             $success = 'Record saved successfully!';
@@ -165,6 +166,12 @@ $default_date = isset($record_date) ? $record_date : date('Y-m-d');
             <?php endif; ?>
         </div>
     </div>-->
+    
+    <div class="mt-4 mb-4">
+        <button onclick="history.back()" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+    </div>
 </div>
 
 <?php require_once(__DIR__ . '/../includes/footer.php'); ?>

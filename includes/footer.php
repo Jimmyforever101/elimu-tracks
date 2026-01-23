@@ -1,8 +1,8 @@
     <!-- Footer -->
     <footer class="bg-dark text-white mt-5 py-4">
         <div class="container text-center">
-            <p>&copy; 2026 Elimu Tracks - School Records Management System. All rights reserved.</p>
-            <p class="small">Designed for Elimu Yetu</p>
+            <p>&copy; 2026 Elimu Tracks - School Records Management System.</p>
+            <p class="small">Designed for Elimu Yetu | Made with ❤ By jimmy!</p>
         </div>
     </footer>
 

@@ -36,4 +36,20 @@ function getCurrentRole() {
 function getCurrentDepartment() {
     return isset($_SESSION['department_id']) ? $_SESSION['department_id'] : null;
 }
+
+function isSuperAdmin() {
+    return isset($_SESSION['is_super_admin']) && $_SESSION['is_super_admin'] == 1;
+}
+
+function checkSuperAdmin() {
+    if (!isLoggedIn()) {
+        header("Location: /elimu-tracks/index.php");
+        exit();
+    }
+    
+    if (!isSuperAdmin()) {
+        header("Location: /elimu-tracks/admin/dashboard.php?error=Super Admin access required");
+        exit();
+    }
+}
 ?>

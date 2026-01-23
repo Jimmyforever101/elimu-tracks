@@ -139,6 +139,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
             </div>
         </div>
     </div>
+    
+    <div class="mt-4 mb-4">
+        <button onclick="history.back()" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+    </div>
 </div>
 
 <?php require_once(__DIR__ . '/../includes/footer.php'); ?>

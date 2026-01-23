@@ -1,2 +1,5 @@
 # elimu-tracks
-Record-tracking system for elimu yetu
+Record-tracking system for elimu yetu...
+
+#Made with ❤ By jimmy!
+

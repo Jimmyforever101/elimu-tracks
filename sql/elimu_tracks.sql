@@ -1,78 +1,180 @@
--- Elimu Tracks Database Schema
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jan 22, 2026 at 07:47 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
-CREATE DATABASE IF NOT EXISTS elimu_tracks;
-USE elimu_tracks;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- Departments Table
-CREATE TABLE IF NOT EXISTS departments (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
--- Users Table
-CREATE TABLE IF NOT EXISTS users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'teacher', 'kitchen') NOT NULL DEFAULT 'teacher',
-    department_id INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (department_id) REFERENCES departments(id)
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- Lesson Attendance Table
-CREATE TABLE IF NOT EXISTS lesson_attendance (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    lesson_title VARCHAR(255) NOT NULL,
-    lesson_time TIME NOT NULL,
-    lesson_end_time TIME,
-    boys_attendance INT NOT NULL DEFAULT 0,
-    girls_attendance INT NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+--
+-- Database: `elimu_tracks`
+--
 
--- Kitchen Plates Table
-CREATE TABLE IF NOT EXISTS kitchen_plates (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    record_date DATE NOT NULL,
-    plates_count INT NOT NULL DEFAULT 0,
-    tea_cups_count INT NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- --------------------------------------------------------
 
--- Insert Demo Data
+--
+-- Table structure for table `departments`
+--
 
--- Insert Departments
-INSERT INTO departments (name) VALUES
-('English'),
-('Mathematics'),
-('Science'),
-('Social Studies'),
-('Physical Education'),
-('Kitchen');
+CREATE TABLE `departments` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Insert Demo Users (password: password123)
-INSERT INTO users (username, email, password, role, department_id) VALUES
-('admin', 'admin@elimutrack.com', '$2y$10$YourHashedPasswordHere', 'admin', NULL),
-('teacher', 'teacher@elimutrack.com', '$2y$10$YourHashedPasswordHere', 'teacher', 1),
-('kitchen', 'kitchen@elimutrack.com', '$2y$10$YourHashedPasswordHere', 'kitchen', 6);
+-- --------------------------------------------------------
 
--- Note: Use the following password hashes (generated with password_hash('password123', PASSWORD_BCRYPT)):
--- $2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36gBaFT2 (replace with actual hash)
+--
+-- Table structure for table `kitchen_plates`
+--
 
--- Create Indexes for better performance
-CREATE INDEX idx_user_id ON lesson_attendance(user_id);
-CREATE INDEX idx_department_id ON users(department_id);
-CREATE INDEX idx_record_date ON kitchen_plates(record_date);
-CREATE INDEX idx_created_at ON lesson_attendance(created_at);
+CREATE TABLE `kitchen_plates` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `record_date` date NOT NULL,
+  `plates_count` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tea_cups_count` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Set up proper character encoding
-ALTER DATABASE elimu_tracks CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE departments CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE lesson_attendance CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE kitchen_plates CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lesson_attendance`
+--
+
+CREATE TABLE `lesson_attendance` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `lesson_title` varchar(255) NOT NULL,
+  `lesson_time` time NOT NULL,
+  `boys_attendance` int(11) NOT NULL DEFAULT 0,
+  `girls_attendance` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `lesson_end_time` time DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('admin','teacher','kitchen') NOT NULL DEFAULT 'teacher',
+  `department_id` int(11) DEFAULT NULL,
+  `is_super_admin` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `department_id`, `is_super_admin`, `created_at`) VALUES
+(1, 'admin', 'admin@elimutrack.com', '$2y$10$0KYbIw0RXMcc5bePGkAv5uykthTuQmwLVu7Hw18TAtFwhTQunruua', 'admin', NULL, 1, '2026-01-21 13:44:27');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `departments`
+--
+ALTER TABLE `departments`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `kitchen_plates`
+--
+ALTER TABLE `kitchen_plates`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_record_date` (`record_date`);
+
+--
+-- Indexes for table `lesson_attendance`
+--
+ALTER TABLE `lesson_attendance`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_created_at` (`created_at`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `idx_department_id` (`department_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `departments`
+--
+ALTER TABLE `departments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `kitchen_plates`
+--
+ALTER TABLE `kitchen_plates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `lesson_attendance`
+--
+ALTER TABLE `lesson_attendance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `kitchen_plates`
+--
+ALTER TABLE `kitchen_plates`
+  ADD CONSTRAINT `kitchen_plates_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `lesson_attendance`
+--
+ALTER TABLE `lesson_attendance`
+  ADD CONSTRAINT `lesson_attendance_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -159,9 +159,9 @@ while ($row = $kitchen_report->fetch_assoc()) {
 </script>
 
 <div class="mt-4 mb-4">
-    <button onclick="history.back()" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Back
-    </button>
+    <a href="dashboard.php" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
 </div>
 
 <?php require_once(__DIR__ . '/../includes/footer.php'); ?>

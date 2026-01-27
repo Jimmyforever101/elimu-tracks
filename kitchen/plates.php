@@ -46,9 +46,14 @@ $default_date = isset($record_date) ? $record_date : date('Y-m-d');
     
     <?php if (!empty($success)): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle"></i> <?php echo $success; ?>
+            <i class="fas fa-check-circle"></i> <?php echo $success; ?> Redirecting to dashboard...
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
+        <script>
+            setTimeout(function() {
+                window.location.href = 'dashboard.php';
+            }, 2000);
+        </script>
     <?php endif; ?>
     
     <?php if (!empty($error)): ?>
@@ -168,9 +173,9 @@ $default_date = isset($record_date) ? $record_date : date('Y-m-d');
     </div>-->
     
     <div class="mt-4 mb-4">
-        <button onclick="history.back()" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back
-        </button>
+        <a href="dashboard.php" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
     </div>
 </div>
 

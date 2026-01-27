@@ -52,9 +52,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     <?php if (!empty($success)): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle"></i> <?php echo $success; ?>
+            <i class="fas fa-check-circle"></i> <?php echo $success; ?> Redirecting to dashboard...
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
+        <script>
+            setTimeout(function() {
+                window.location.href = 'dashboard.php';
+            }, 2000);
+        </script>
     <?php endif; ?>
     
     <?php if (!empty($error)): ?>
@@ -75,33 +80,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="form-group">
                             <label for="lesson_title">Lesson Title</label>
                             <input type="text" class="form-control" id="lesson_title" name="lesson_title" 
-                                   placeholder="e.g., Mathematics - Algebra" value="<?php echo htmlspecialchars($lesson_title ?? ''); ?>" required>
+                                placeholder="e.g., Mathematics - Algebra" value="<?php echo htmlspecialchars($lesson_title ?? ''); ?>" required>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="lesson_time">Start Time</label>
                                 <input type="time" class="form-control" id="lesson_time" name="lesson_time" 
-                                       value="<?php echo htmlspecialchars($lesson_time ?? ''); ?>" required>
+                                    value="<?php echo htmlspecialchars($lesson_time ?? ''); ?>" required>
                             </div>
                             
                             <div class="form-group col-md-6">
                                 <label for="lesson_end_time">End Time</label>
                                 <input type="time" class="form-control" id="lesson_end_time" name="lesson_end_time" 
-                                       value="<?php echo htmlspecialchars($lesson_end_time ?? ''); ?>" required>
+                                    value="<?php echo htmlspecialchars($lesson_end_time ?? ''); ?>" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="boys_attendance">Boys Attendance</label>
                             <input type="number" class="form-control" id="boys_attendance" name="boys_attendance" 
-                                   placeholder="Number of boys present" min="0" value="<?php echo htmlspecialchars($boys_attendance ?? ''); ?>" required>
+                                placeholder="Number of boys present" min="0" value="<?php echo htmlspecialchars($boys_attendance ?? ''); ?>" required>
                         </div>
                         
                         <div class="form-group">
                             <label for="girls_attendance">Girls Attendance</label>
                             <input type="number" class="form-control" id="girls_attendance" name="girls_attendance" 
-                                   placeholder="Number of girls present" min="0" value="<?php echo htmlspecialchars($girls_attendance ?? ''); ?>" required>
+                            placeholder="Number of girls present" min="0" value="<?php echo htmlspecialchars($girls_attendance ?? ''); ?>" required>
                         </div>
                         
                         <button type="submit" class="btn btn-primary w-100">
@@ -132,9 +137,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     
     <div class="mt-4 mb-4">
-        <button onclick="history.back()" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back
-        </button>
+        <a href="dashboard.php" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
     </div>
 </div>
 

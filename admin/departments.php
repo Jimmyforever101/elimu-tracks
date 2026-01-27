@@ -204,9 +204,9 @@ $departments = $conn->query("SELECT * FROM departments ORDER BY name ASC");
     <?php endwhile; ?>
     
     <div class="mt-4 mb-4">
-        <button onclick="history.back()" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back
-        </button>
+        <a href="dashboard.php" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
     </div>
 </div>
 

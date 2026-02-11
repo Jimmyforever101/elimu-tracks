@@ -1,5 +1,5 @@
     <!-- Footer -->
-    <footer class="bg-dark text-white mt-5 py-4">
+    <footer class="text-white mt-5 py-4" style="background-color: var(--primary-color);">
         <div class="container text-center">
             <p>&copy; 2026 Elimu Tracks - School Records Management System.</p>
             <p class="small">Designed for Elimu Yetu | Made with ❤ By jimmy!</p>

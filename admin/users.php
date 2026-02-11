@@ -383,11 +383,7 @@ while ($dept = $departments->fetch_assoc()) {
         </div>
     <?php endwhile; ?>
     
-    <div class="mt-4 mb-4">
-        <a href="dashboard.php" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back to Dashboard
-        </a>
-    </div>
+            <!-- Back to Dashboard button removed (nav already provides access) -->
 </div>
 
 <?php require_once(__DIR__ . '/../includes/footer.php'); ?>

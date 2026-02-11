@@ -46,28 +46,49 @@ while ($row = $kitchen_report->fetch_assoc()) {
         <p>View comprehensive school records and statistics</p>
     </div>
     
-    <div class="row">
-        <!-- Attendance by Department -->
-        <div class="col-lg-6 col-md-12 col-sm-12">
-            <div class="chart-wrapper">
-                <h5 class="card-title"><i class="fas fa-chart-pie"></i> Attendance Records by Department</h5>
-                <div class="chart-container">
-                    <canvas id="deptChart"></canvas>
-                </div>
-            </div>
+    <!-- Removed summary charts; replaced with detailed tables below -->
+    
+    <!-- Kitchen Detailed Report -->
+    <?php
+    $kitchen_detail = $conn->query("SELECT kp.*, u.username FROM kitchen_plates kp LEFT JOIN users u ON kp.user_id = u.id ORDER BY kp.record_date DESC, kp.created_at DESC LIMIT 200");
+    ?>
+    <div class="card mt-4">
+        <div class="card-header">
+            <i class="fas fa-utensils"></i> Kitchen Detailed Report
         </div>
-        
-        <!-- Kitchen Plates Trend -->
-        <div class="col-lg-6 col-md-12 col-sm-12">
-            <div class="chart-wrapper">
-                <h5 class="card-title"><i class="fas fa-chart-line"></i> Kitchen Plates - Last 30 Days</h5>
-                <div class="chart-container">
-                    <canvas id="kitchenTrendChart"></canvas>
-                </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="kitchenTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Plates Saved</th>
+                            <th>Tea Cups</th>
+                            <th>Recorded By</th>
+                            <th>Recorded At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($k = $kitchen_detail->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo date('M d, Y', strtotime($k['record_date'])); ?></td>
+                                <td><?php echo (int)$k['plates_count']; ?></td>
+                                <td><?php echo (int)$k['tea_cups_count']; ?></td>
+                                <td><?php echo htmlspecialchars($k['username'] ?? 'System'); ?></td>
+                                <td><?php echo date('M d, Y H:i', strtotime($k['created_at'])); ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-3">
+                <button class="btn btn-success btn-sm" onclick="exportToCSV('kitchen_report.csv', generateKitchenData())">
+                    <i class="fas fa-download"></i> Download CSV
+                </button>
             </div>
         </div>
     </div>
-    
+
     <!-- Detailed Attendance Report -->
     <div class="card mt-4">
         <div class="card-header">
@@ -125,21 +146,11 @@ while ($row = $kitchen_report->fetch_assoc()) {
 </div>
 
 <script>
-    // Department chart
-    <?php if (!empty($dept_names)): ?>
-    createPieChart('deptChart', <?php echo json_encode($dept_names); ?>, <?php echo json_encode($record_counts); ?>);
-    <?php endif; ?>
-    
-    // Kitchen trend chart
-    <?php if (!empty($kitchen_dates)): ?>
-    createLineChart('kitchenTrendChart', <?php echo json_encode($kitchen_dates); ?>, <?php echo json_encode($kitchen_plates); ?>, 'Plates Saved');
-    <?php endif; ?>
-    
     // Generate attendance data for export
     function generateAttendanceData() {
         const table = document.getElementById('attendanceTable');
         const data = [];
-        
+
         for (let i = 1; i < table.rows.length; i++) {
             const row = table.rows[i];
             data.push({
@@ -153,15 +164,30 @@ while ($row = $kitchen_report->fetch_assoc()) {
                 Total: row.cells[7].textContent
             });
         }
-        
+
+        return data;
+    }
+
+    // Generate kitchen data for export
+    function generateKitchenData() {
+        const table = document.getElementById('kitchenTable');
+        const data = [];
+
+        for (let i = 1; i < table.rows.length; i++) {
+            const row = table.rows[i];
+            data.push({
+                Date: row.cells[0].textContent,
+                Plates: row.cells[1].textContent,
+                TeaCups: row.cells[2].textContent,
+                RecordedBy: row.cells[3].textContent,
+                RecordedAt: row.cells[4].textContent
+            });
+        }
+
         return data;
     }
 </script>
 
-<div class="mt-4 mb-4">
-    <a href="dashboard.php" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Back to Dashboard
-    </a>
-</div>
+<!-- Back to Dashboard button removed (nav already provides access) -->
 
 <?php require_once(__DIR__ . '/../includes/footer.php'); ?>

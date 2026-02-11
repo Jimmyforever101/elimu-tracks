@@ -1,12 +1,13 @@
 /* Elimu Tracks - Custom Stylesheet */
 
 :root {
-    --primary-color: #007bff;
-    --secondary-color: #6c757d;
-    --success-color: #28a745;
+    --primary-color: #1eb53a;
+    --primary-dark: #f17b26;
+    --secondary-color: #00a3dd;
+    --success-color: #1eb53a;
     --danger-color: #dc3545;
-    --warning-color: #ffc107;
-    --info-color: #17a2b8;
+    --warning-color: #fcd116;
+    --info-color: #00a3dd;
 }
 
 * {
@@ -31,7 +32,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
 }
 
 .login-box {
@@ -60,8 +61,8 @@ html, body {
 }
 
 .login-box .form-control:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(30, 181, 58, 0.25);
 }
 
 .login-box .btn {
@@ -86,7 +87,7 @@ html, body {
 .dashboard-header {
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid var(--primary-color);
 }
 
 .dashboard-header h1 {
@@ -114,7 +115,7 @@ html, body {
 }
 
 .card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: white;
     border-radius: 10px 10px 0 0;
     font-weight: bold;
@@ -133,7 +134,7 @@ html, body {
 /* Stat Cards */
 .stat-card {
     background: white;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid var(--primary-color);
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 5px;
@@ -148,7 +149,7 @@ html, body {
 .stat-card .stat-value {
     font-size: 28px;
     font-weight: bold;
-    color: #007bff;
+    color: var(--primary-color);
 }
 
 /* Forms */
@@ -165,8 +166,8 @@ html, body {
 }
 
 .form-control:focus, .form-select:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(30, 181, 58, 0.25);
 }
 
 .btn {
@@ -177,23 +178,23 @@ html, body {
 }
 
 .btn-primary {
-    background-color: #667eea;
-    border-color: #667eea;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .btn-primary:hover {
-    background-color: #764ba2;
-    border-color: #764ba2;
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
 }
 
 .btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
 }
 
 .btn-secondary:hover {
-    background-color: #5a6268;
-    border-color: #5a6268;
+    background-color: #d66e1f;
+    border-color: #d66e1f;
 }
 
 /* Tables */
@@ -206,7 +207,7 @@ table {
 }
 
 .table thead th {
-    background-color: #667eea;
+    background-color: var(--primary-color);
     color: white;
     font-weight: bold;
     border: none;
@@ -232,11 +233,11 @@ table {
 }
 
 .badge-teacher {
-    background-color: #28a745;
+    background-color: var(--success-color);
 }
 
 .badge-kitchen {
-    background-color: #ffc107;
+    background-color: var(--warning-color);
     color: #333;
 }
 
@@ -348,7 +349,7 @@ table {
 /* Loading Spinner */
 .spinner {
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #667eea;
+    border-top: 4px solid var(--primary-color);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -374,7 +375,7 @@ table {
 }
 
 .text-success {
-    color: #28a745;
+    color: var(--success-color);
 }
 
 .text-danger {
@@ -400,4 +401,16 @@ table {
 .empty-state p {
     color: #999;
     font-size: 16px;
+}
+
+/* Navbar Back Button */
+.navbar-back-btn {
+    transition: all 0.3s ease;
+    padding: 8px 16px !important;
+    border-radius: 5px;
+}
+
+.navbar-back-btn:hover {
+    background-color: rgba(28, 171, 9, 0.8);
+    color: white !important;
 }

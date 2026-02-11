@@ -153,8 +153,8 @@ function createLineChart(canvasId, labels, data, label) {
             datasets: [{
                 label: label,
                 data: data,
-                borderColor: '#667eea',
-                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderColor: '#1eb53a',
+                backgroundColor: 'rgba(30, 181, 58, 0.1)',
                 borderWidth: 2,
                 tension: 0.4,
                 fill: true
@@ -189,12 +189,12 @@ function createBarChart(canvasId, labels, boysData, girlsData) {
                 {
                     label: 'Boys',
                     data: boysData,
-                    backgroundColor: '#667eea'
+                    backgroundColor: '#1eb53a'
                 },
                 {
                     label: 'Girls',
                     data: girlsData,
-                    backgroundColor: '#764ba2'
+                    backgroundColor: '#f17b26'
                 }
             ]
         },
@@ -226,12 +226,12 @@ function createPieChart(canvasId, labels, data) {
             datasets: [{
                 data: data,
                 backgroundColor: [
-                    '#667eea',
-                    '#764ba2',
-                    '#ffc107',
-                    '#28a745',
+                    '#1eb53a',
+                    '#f17b26',
+                    '#fcd116',
+                    '#1eb53a',
                     '#dc3545',
-                    '#17a2b8'
+                    '#00a3dd'
                 ]
             }]
         },

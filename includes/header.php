@@ -22,10 +22,10 @@ require_once(__DIR__ . '/auth.php');
 <body>
     <?php if (isLoggedIn()): ?>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: var(--primary-color);">
         <div class="container-fluid">
-            <a class="navbar-brand" href="javascript:history.back()">
-                <i class="fas fa-graduation-cap"></i> Elimu Tracks
+            <a class="navbar-brand navbar-back-btn" href="/elimu-tracks/<?php echo getCurrentRole(); ?>/dashboard.php" style="color: white; font-weight: bold; font-size: 18px;">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>

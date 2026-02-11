@@ -241,15 +241,15 @@ $recent = $conn->query("
                 {
                     label: 'Plates Saved',
                     data: <?php echo json_encode($plates_counts); ?>,
-                    backgroundColor: '#0d6efd',
-                    borderColor: '#0a58ca',
+                    backgroundColor: '#1eb53a',
+                    borderColor: '#f17b26',
                     borderWidth: 1
                 },
                 {
                     label: 'Tea Cups Served',
                     data: <?php echo json_encode($cups_counts); ?>,
-                    backgroundColor: '#fd7e14',
-                    borderColor: '#d36f0f',
+                    backgroundColor: '#f17b26',
+                    borderColor: '#d66e1f',
                     borderWidth: 1
                 }
             ]

@@ -28,7 +28,7 @@ $recent = $conn->query("
         <p>Welcome, <?php echo getCurrentUser(); ?>! Track your lesson attendance here.</p>
     </div>
     
-    <!-- Statistics 
+    <!-- Statistics
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="stat-card">

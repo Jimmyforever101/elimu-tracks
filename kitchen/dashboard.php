@@ -136,7 +136,7 @@ $recent = $conn->query("
         </div>
     </div>
     
-    <!-- Weekly Chart -->
+    <!-- Weekly Chart 
     <div class="row mt-4">
         <div class="col-lg-8 col-md-12">
             <div class="chart-wrapper">
@@ -147,8 +147,9 @@ $recent = $conn->query("
             </div>
         </div>
         
-        <div class="col-lg-4 col-md-12">
-            <div class="card">
+        
+        <div class="col-lg-4 col-md-12" >
+            <div class="card">-->
                 <div class="card-header">
                     <i class="fas fa-info-circle"></i> Information
                 </div>

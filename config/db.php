@@ -20,4 +20,5 @@ $conn->set_charset("utf8");
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
 ?>

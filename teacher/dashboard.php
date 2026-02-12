@@ -65,7 +65,7 @@ $recent = $conn->query("
             <a href="/elimu-tracks/teacher/attendance.php" class="btn btn-primary btn-lg me-2">
                 <i class="fas fa-plus"></i> Log Attendance
             </a>
-            <a href="/elimu-tracks/teacher/history.php" class="btn btn-info btn-lg">
+            <a href="/elimu-tracks/teacher/history.php" class="btn btn-info btn-lg" style="background-color: yellowgreen">
                 <i class="fas fa-history"></i> View History
             </a>
         </div>

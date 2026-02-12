@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="login-box">
             <div class="text-center mb-4">
                 <i class="fas fa-graduation-cap" style="font-size: 48px; color: var(--primary-color);"></i>
-                <h2 class="mt-3">ElimuTracks</h2>
+                <h2 class="mt-3">ElimuRecords</h2>
                 <p class="text-muted">Elimu Yetu Records Management System</p>
             </div>
             

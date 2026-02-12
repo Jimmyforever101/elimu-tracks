@@ -129,7 +129,7 @@ $recent = $conn->query("
                 <i class="fas fa-plus"></i> Record Plates & Tea Cups
             </a>
             <?php if (getCurrentRole() === 'admin'): ?>
-            <a href="/elimu-tracks/admin/dashboard.php" class="btn btn-warning btn-lg">
+            <a href="/elimu-tracks/admin/dashboard.php" class="btn btn-warning btn-lg" style="background-color: yellowgreen;">
                 <i class="fas fa-arrow-left"></i> Back to Admin Dashboard
             </a>
             <?php endif; ?>

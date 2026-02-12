@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 23, 2026 at 05:23 PM
+-- Generation Time: Feb 11, 2026 at 07:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -87,8 +87,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `department_id`, `is_super_admin`, `created_at`) VALUES
-(1, 'admin', 'admin@elimutrack.com', '$2y$10$SNwV9SW4JG8p97DShnZI/OAfic5Gvy.hhuN1RbTzhk3Z6flk7LRjC', 'admin', NULL, 1, '2026-01-21 13:44:27'),
-(15, 'administrator', 'admin@elimuyetu.com', '$2y$10$uEY.0ZRf4mlLBnc51ruPV.cIE7JdTyDf1A0M//VSZ1vbVejgK6CLO', 'admin', NULL, 0, '2026-01-23 12:05:06');
+(1, 'dev', 'dev@elimutrack.com', '$2y$10$SNwV9SW4JG8p97DShnZI/OAfic5Gvy.hhuN1RbTzhk3Z6flk7LRjC', 'admin', NULL, 1, '2026-01-21 13:44:27'),
+(15, 'admin', 'admin@elimuyetu.com', '$2y$10$uEY.0ZRf4mlLBnc51ruPV.cIE7JdTyDf1A0M//VSZ1vbVejgK6CLO', 'admin', NULL, 0, '2026-01-23 12:05:06');
 
 --
 -- Indexes for dumped tables
@@ -133,25 +133,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `kitchen_plates`
 --
 ALTER TABLE `kitchen_plates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `lesson_attendance`
 --
 ALTER TABLE `lesson_attendance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Constraints for dumped tables
